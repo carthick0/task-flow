@@ -23,10 +23,28 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Enable CORS
+const allowedOrigins = [
+    process.env.FRONTEND_URL,
+].filter(Boolean).map(origin => origin.replace(/\/$/, "")); // Remove trailing slashes
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true
+    origin: function (origin, callback) {
+        // allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+            const msg = 'The CORS policy for this site does not ' +
+                'allow access from the specified Origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// Explicitly handle pre-flight requests
+app.options('*', cors());
 
 // Mount routers
 app.use('/api/auth', auth);

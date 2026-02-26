@@ -91,11 +91,13 @@ const sendTokenResponse = (user, statusCode, res) => {
         expiresIn: '30d'
     });
 
+    const isProduction = process.env.NODE_ENV === 'production';
+
     const options = {
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'Strict'
+        secure: isProduction, // Must be true for sameSite: 'None'
+        sameSite: isProduction ? 'None' : 'Lax'
     };
 
     // Sensitive data to encrypt (user details for frontend)
