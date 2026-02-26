@@ -43,9 +43,6 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Explicitly handle pre-flight requests
-app.options('*', cors());
-
 // Mount routers
 app.use('/api/auth', auth);
 app.use('/api/tasks', tasks);
