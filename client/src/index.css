@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap');
+
+@layer base {
+  body {
+    @apply bg-background text-text font-inter antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-outfit;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-surface/70 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-2xl;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-surface border border-border rounded-lg text-text text-sm transition-colors focus:outline-none focus:border-primary;
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 bg-primary text-white rounded-lg font-semibold transition-all hover:bg-primary-hover hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .container-custom {
+    @apply max-w-[1200px] mx-auto px-5;
+  }
+}
+
+/* Maintain necessary custom animations if needed, but Tailwind has animate-fade in v3+ sometimes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-background;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-border rounded-full hover:bg-text-muted/30 transition-colors;
+}
