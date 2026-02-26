@@ -16,6 +16,9 @@ const tasks = require('./routes/tasks');
 
 const app = express();
 
+// Trust proxy for secure cookies in production (e.g., on Render)
+app.set('trust proxy', 1);
+
 // Body parser
 app.use(express.json());
 

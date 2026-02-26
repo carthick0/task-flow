@@ -114,6 +114,7 @@ const sendTokenResponse = (user, statusCode, res) => {
         .cookie('token', token, options)
         .json({
             success: true,
+            token, // Added for hybrid auth
             payload: encryptedUser // Demonstrating encrypted payload Requirement
         });
 };
