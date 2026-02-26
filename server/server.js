@@ -25,22 +25,22 @@ app.use(cookieParser());
 // Enable CORS
 const allowedOrigins = [
     process.env.FRONTEND_URL,
-].filter(Boolean).map(origin => origin.replace(/\/$/, "")); // Remove trailing slashes
+    'https://task-flow-sigma-eosin.vercel.app',
+    'http://localhost:5173'
+].filter(Boolean).map(origin => origin.replace(/\/$/, ""));
 
 app.use(cors({
     origin: function (origin, callback) {
-        // allow requests with no origin (like mobile apps or curl requests)
         if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) === -1) {
-            const msg = 'The CORS policy for this site does not ' +
-                'allow access from the specified Origin.';
-            return callback(new Error(msg), false);
+        const normalized = origin.replace(/\/$/, "");
+        if (allowedOrigins.includes(normalized)) {
+            return callback(null, true);
         }
-        return callback(null, true);
+        return callback(null, false);
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept']
 }));
 
 // Mount routers
